@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gutsy — Inside, Happy Outside</title>
+<style>
+  @font-face {
+    font-family: "HWT Artz";
+    src: url("HWTArtz.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Poppins";
+    src: url("Poppins-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --green: #1A3C32;
+    --green-deep: #143028;
+    --orange: #FF8500;
+    --orange-hover: #E97600;
+    --beige: #FBEDDA;
+    --beige-warm: #F4E2C8;
+    --ink: #14241E;
+    --paper: #FFF8EC;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--beige);
+    color: var(--ink);
+    font-family: "Poppins", system-ui, sans-serif;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+
+  img { max-width: 100%; display: block; }
+
+  /* ---------- Type system ---------- */
+  .display {
+    font-family: "HWT Artz", "Poppins", serif;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    line-height: 0.95;
+  }
+  .display .accent {
+    color: var(--orange);
+    display: inline-block;
+    transform: skewX(-12deg);
+    transform-origin: 0 100%;
+    padding: 0 0.12em 0 0.04em;
+  }
+  .eyebrow {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+  .eyebrow.muted { color: rgba(20,36,30,0.55); }
+  .eyebrow.on-dark { color: rgba(251,237,218,0.65); }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    background: var(--beige);
+    border-bottom: 1px solid rgba(26,60,50,0.08);
+  }
+  .nav-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 22px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .brand-logo {
+    display: block;
+    height: 44px;
+    width: auto;
+  }
+  .footer-logo {
+    display: block;
+    height: 40px;
+    width: auto;
+    margin-bottom: 18px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    min-height: 760px;
+    background: var(--green);
+  }
+  .hero-copy {
+    background: var(--green);
+    color: var(--beige);
+    padding: 120px 80px 120px clamp(48px, 8vw, 140px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 760px;
+  }
+  .hero h1 {
+    font-size: clamp(56px, 7vw, 104px);
+    margin: 0 0 28px;
+  }
+  .hero p {
+    font-size: 19px;
+    line-height: 1.55;
+    color: rgba(251,237,218,0.92);
+    max-width: 480px;
+    margin: 0 0 40px;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--orange);
+    color: white;
+    text-decoration: none;
+    padding: 18px 36px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    align-self: flex-start;
+    border: none;
+    cursor: pointer;
+    transition: background .2s, transform .2s;
+  }
+  .btn-primary:hover { background: var(--orange-hover); transform: translateY(-1px); }
+
+  .hero-trust {
+    margin-top: 56px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: rgba(251,237,218,0.75);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .hero-trust .stars { color: var(--orange); letter-spacing: 2px; font-size: 14px; }
+
+  .hero-media {
+    position: relative;
+    overflow: hidden;
+    background: #2b3a30;
+  }
+  .hero-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---------- Section: Why Gutsy ---------- */
+  .section {
+    padding: 140px clamp(48px, 8vw, 140px);
+  }
+  .section.beige { background: var(--beige); }
+  .section.paper { background: var(--paper); }
+  .section.green {
+    background: var(--green);
+    color: var(--beige);
+  }
+
+  .section-head {
+    max-width: 1280px;
+    margin: 0 auto 80px;
+  }
+  .section-head h2 {
+    font-size: clamp(48px, 5.6vw, 84px);
+    margin: 18px 0 0;
+    color: var(--green);
+    max-width: 920px;
+  }
+  .section.green .section-head h2 { color: var(--beige); }
+
+  .why-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .why-card {
+    background: transparent;
+    border-radius: 18px;
+    padding: 18px 18px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: background .2s, box-shadow .2s, transform .2s;
+  }
+  .why-media {
+    aspect-ratio: 4/3;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    background: var(--beige-warm);
+  }
+  .why-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .55s cubic-bezier(.2,.7,.2,1);
+    transform-origin: center;
+  }
+  .why-card:hover .why-media img {
+    transform: scale(1.06);
+  }
+  .why-card > .why-num,
+  .why-card > h3,
+  .why-card > p {
+    padding: 0 18px;
+  }
+  .why-card.featured {
+    background: var(--paper);
+    box-shadow: 0 20px 40px -24px rgba(26,60,50,0.18);
+  }
+  .why-card:hover {
+    background: var(--paper);
+    box-shadow: 0 20px 40px -24px rgba(26,60,50,0.18);
+  }
+  .why-num {
+    font-family: "HWT Artz", serif;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--orange);
+    letter-spacing: 0.01em;
+  }
+  .why-card h3 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    margin: 0;
+    color: var(--green);
+    letter-spacing: -0.005em;
+  }
+  .why-card p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(20,36,30,0.7);
+    max-width: 320px;
+  }
+
+  /* ---------- Section: Stats / Satisfaction ---------- */
+  .split {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .split-media {
+    aspect-ratio: 5/6;
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--green-deep);
+  }
+  .split-media img { width: 100%; height: 100%; object-fit: cover; }
+
+  .split-copy h2 {
+    font-family: "HWT Artz", serif;
+    font-size: clamp(40px, 4.4vw, 72px);
+    text-transform: uppercase;
+    line-height: 0.98;
+    color: var(--green);
+    margin: 14px 0 28px;
+    letter-spacing: 0.005em;
+  }
+  .split-copy p.body {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(20,36,30,0.72);
+    max-width: 520px;
+    margin: 0 0 44px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    max-width: 560px;
+  }
+  .stat .num {
+    font-family: "HWT Artz", serif;
+    font-size: 56px;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat .label {
+    font-size: 14px;
+    color: rgba(20,36,30,0.7);
+    margin-bottom: 8px;
+  }
+  .stat .stars { color: var(--orange); letter-spacing: 3px; font-size: 14px; }
+
+  /* ---------- Reviews (green carousel) ---------- */
+  .reviews-section {
+    background: var(--green);
+    color: var(--beige);
+    padding: 120px 0 140px;
+    overflow: hidden;
+  }
+  .reviews-head {
+    max-width: 1280px;
+    margin: 0 auto 64px;
+    padding: 0 clamp(48px, 8vw, 140px);
+    text-align: center;
+  }
+  .reviews-head h2 {
+    font-family: "HWT Artz", serif;
+    text-transform: uppercase;
+    color: #F2E27A;
+    font-size: clamp(40px, 5vw, 76px);
+    line-height: 1;
+    margin: 0;
+    letter-spacing: 0.005em;
+  }
+  .reviews-track {
+    display: flex;
+    gap: 28px;
+    padding: 0 clamp(48px, 8vw, 140px);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .reviews-track::-webkit-scrollbar { display: none; }
+  .review-card {
+    flex: 0 0 380px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    scroll-snap-align: start;
+    min-height: 640px;
+  }
+  .review-photo {
+    aspect-ratio: 4/3;
+    background: var(--green-deep);
+    overflow: hidden;
+  }
+  .review-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .review-body {
+    padding: 26px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .review-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+  .review-name {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(20,36,30,0.45);
+  }
+  .review-stars {
+    color: var(--orange);
+    font-size: 20px;
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+  .review-title {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.2;
+    color: var(--green);
+    margin: 0 0 18px;
+    letter-spacing: -0.01em;
+  }
+  .review-body p.quote {
+    font-family: "Poppins", sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--green);
+    margin: 0 0 28px;
+    flex: 1;
+  }
+  .review-time {
+    font-size: 15px;
+    color: rgba(20,36,30,0.4);
+    margin-top: auto;
+  }
+  .reviews-controls {
+    max-width: 1280px;
+    margin: 48px auto 0;
+    padding: 0 clamp(48px, 8vw, 140px);
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+  }
+  .reviews-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1.5px solid rgba(251,237,218,0.4);
+    color: var(--beige);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s, border-color .2s, color .2s;
+  }
+  .reviews-btn:hover {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: white;
+  }
+  .reviews-btn svg { width: 20px; height: 20px; }
+
+  /* ---------- Nutrition ---------- */
+  .nutrition {
+    background: var(--green);
+    color: var(--beige);
+    padding: 120px clamp(48px, 8vw, 140px);
+  }
+  .nutrition-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .nutrition h2 {
+    font-family: "HWT Artz", serif;
+    font-size: clamp(44px, 5vw, 76px);
+    text-transform: uppercase;
+    line-height: 0.98;
+    margin: 14px 0 24px;
+  }
+  .nutrition h2 .accent {
+    color: var(--orange);
+    display: inline-block;
+    transform: skewX(-12deg);
+    padding: 0 0.1em;
+  }
+  .nutrition p.lede {
+    font-size: 17px;
+    line-height: 1.65;
+    color: rgba(251,237,218,0.82);
+    max-width: 520px;
+    margin: 0 0 40px;
+  }
+  .ingredient-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    max-width: 520px;
+  }
+  .ingredient {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border: 1px solid rgba(251,237,218,0.15);
+    border-radius: 999px;
+    font-size: 14px;
+    color: var(--beige);
+  }
+  .ingredient .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--orange);
+    flex: 0 0 8px;
+  }
+  .nutrition-media {
+    aspect-ratio: 1/1;
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--green-deep);
+  }
+  .nutrition-media img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ---------- CTA + Footer ---------- */
+  .cta-band {
+    background: var(--green);
+    color: var(--beige);
+    padding: 90px clamp(48px, 8vw, 140px) 60px;
+  }
+  .cta-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(251,237,218,0.15);
+  }
+  .cta-inner h3 {
+    font-family: "HWT Artz", serif;
+    text-transform: uppercase;
+    font-size: clamp(36px, 4vw, 60px);
+    line-height: 0.98;
+    margin: 0;
+    max-width: 700px;
+  }
+  .cta-inner h3 .accent {
+    color: var(--orange);
+    display: inline-block;
+    transform: skewX(-12deg);
+    padding: 0 0.1em;
+  }
+  .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--orange);
+    color: white;
+    text-decoration: none;
+    padding: 22px 36px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background .2s;
+  }
+  .btn-cta:hover { background: var(--orange-hover); }
+
+  .footer {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 64px 0 24px;
+    color: var(--beige);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.4fr;
+    gap: 48px;
+  }
+  .footer p, .footer a {
+    color: rgba(251,237,218,0.75);
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 1.8;
+  }
+  .footer a:hover { color: var(--beige); }
+  .footer h5 {
+    font-family: "Poppins", sans-serif;
+    color: var(--beige);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin: 0 0 18px;
+    font-weight: 500;
+  }
+  .footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .newsletter-form {
+    display: flex;
+    margin-top: 16px;
+    background: rgba(251,237,218,0.08);
+    border-radius: 10px;
+    padding: 6px;
+    border: 1px solid rgba(251,237,218,0.15);
+  }
+  .newsletter-form input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--beige);
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 14px;
+  }
+  .newsletter-form input::placeholder { color: rgba(251,237,218,0.5); }
+  .newsletter-form button {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 0 22px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .newsletter-form button:hover { background: var(--orange-hover); }
+  .socials {
+    display: flex;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .socials a {
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 1px solid rgba(251,237,218,0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color .2s;
+  }
+  .socials a:hover { border-color: rgba(251,237,218,0.5); }
+  .socials svg { width: 16px; height: 16px; fill: var(--beige); }
+
+  .footer-bottom {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    color: rgba(251,237,218,0.5);
+    font-size: 13px;
+  }
+
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-media { min-height: 420px; }
+    .why-grid { grid-template-columns: 1fr; }
+    .review-card { flex-basis: 86vw; min-height: 560px; }
+    .split, .nutrition-inner { grid-template-columns: 1fr; gap: 40px; }
+    .footer { grid-template-columns: 1fr 1fr; }
+    .section { padding: 80px 32px; }
+    .nutrition { padding: 80px 32px; }
+    .cta-band { padding: 60px 32px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#" aria-label="Gutsy home">
+      <img src="Logo/Gutsy • Logo dark.png" alt="Gutsy" class="brand-logo" />
+    </a>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-copy">
+    <h1 class="display">Gutsy inside,<br /><span class="accent">Happy</span> outside</h1>
+    <p>Your dog's wellness directly impacts your daily life. Our nutrition fuels the vitality they need and the moments you cherish.</p>
+    <a href="https://gutsy.dog/collections/all" class="btn-primary" target="_blank" rel="noopener">Get Started</a>
+    <div class="hero-trust">
+      <span class="stars">★★★★★</span>
+      <span>Trusted by 24,000+ dog families</span>
+    </div>
+  </div>
+  <div class="hero-media">
+    <img src="2026-05-21 23.02.38.jpg" alt="Happy dog outdoors" />
+  </div>
+</section>
+
+<!-- ===================== WHY GUTSY ===================== -->
+<section class="section beige" id="why">
+  <div class="section-head" style="text-align:center; max-width:780px; margin-left:auto; margin-right:auto;">
+    <div class="eyebrow">Why Gutsy?</div>
+    <h2 class="display" style="font-size: clamp(40px, 4.6vw, 68px); text-transform: none; line-height: 1.05;">Here are a few <span class="accent" style="text-transform: lowercase;">reasons</span> why dog owners choose Gutsy.</h2>
+  </div>
+  <div class="why-grid">
+    <article class="why-card featured">
+      <div class="why-media">
+        <img src="testimonials/photo-1727379819078-65e02ff69f5c.avif" alt="Dog enjoying a meal" />
+      </div>
+      <div class="why-num">01</div>
+      <h3>Nutritious Ingredients</h3>
+      <p>Made with quality ingredients to support digestion, immunity, and energy.</p>
+    </article>
+    <article class="why-card">
+      <div class="why-media">
+        <img src="testimonials/photo-1763586756459-9266a481ab31.avif" alt="Active dog running" />
+      </div>
+      <div class="why-num">02</div>
+      <h3>Active Dogs</h3>
+      <p>Healthy nutrition helps dogs stay playful, energetic, and active every day.</p>
+    </article>
+    <article class="why-card">
+      <div class="why-media">
+        <img src="testimonials/photo-1771187058704-3f594fc464a0.avif" alt="Walk in nature" />
+      </div>
+      <div class="why-num">03</div>
+      <h3>Better Routines</h3>
+      <p>More walks, fresh air, and healthier daily habits for both dogs and owners.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== NUTRITION / INGREDIENTS ===================== -->
+<section class="nutrition" id="nutrition">
+  <div class="nutrition-inner">
+    <div class="nutrition-media">
+      <img src="CP_Bowl_Dog_2_-_Medium_3c34e136-0e87-4611-84c5-cde73bf765e0.webp" alt="Bowl of Gutsy kibble" />
+    </div>
+    <div>
+      <div class="eyebrow on-dark">Inside every bag</div>
+      <h2>Real food.<br/><span class="accent">Real</span> ingredients.</h2>
+      <p class="lede">We start with whole, named-source proteins and pair them with veg, seeds and gut-friendly fibre. No mystery meat. No fillers. Just food you'd be proud to scoop.</p>
+      <div class="ingredient-grid">
+        <div class="ingredient"><i class="dot"></i> Free-run chicken</div>
+        <div class="ingredient"><i class="dot"></i> Grass-fed lamb</div>
+        <div class="ingredient"><i class="dot"></i> Sweet potato</div>
+        <div class="ingredient"><i class="dot"></i> Pumpkin &amp; flax</div>
+        <div class="ingredient"><i class="dot"></i> Salmon oil</div>
+        <div class="ingredient"><i class="dot"></i> Live probiotics</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STORY / STATS ===================== -->
+<section class="section paper" id="stories">
+  <div class="split">
+    <div class="split-media">
+      <img src="GettyImages-544673512-960w.webp" alt="Dog and owner candid moment" />
+    </div>
+    <div class="split-copy">
+      <div class="eyebrow">Healthier dogs, happier days</div>
+      <h2>We help dogs feel <span style="color:var(--orange); display:inline-block; transform:skewX(-12deg); padding:0 0.1em;">better</span> so owners can enjoy healthier routines too.</h2>
+      <p class="body">Healthy dogs create stronger daily habits, more outdoor activity, and better emotional wellbeing for owners. Gutsy supports digestion, immunity, and energy with nutritious grain-free recipes made for everyday health.</p>
+      <p class="body" style="font-style: italic; color: rgba(20,36,30,0.55); margin-bottom: 36px;">Made for puppies, small adult dogs, and large adult dogs.</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="num">85%</div>
+          <div class="label">Animal Protein</div>
+        </div>
+        <div class="stat">
+          <div class="num">0%</div>
+          <div class="label">Grain &amp; Gluten</div>
+        </div>
+        <div class="stat">
+          <div class="num">3</div>
+          <div class="label">Specialized Formulas</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REVIEWS ===================== -->
+<section class="reviews-section" id="reviews">
+  <div class="reviews-head">
+    <h2>Loved by over 10,000 dogs</h2>
+  </div>
+  <div class="reviews-track" id="reviewsTrack">
+    <article class="review-card">
+      <div class="review-photo">
+        <img src="reviews/2026-05-21 23.04.05.jpg" alt="Quinn and Sparker" />
+      </div>
+      <div class="review-body">
+        <div class="review-meta">
+          <span class="review-name">Quinn &amp; Sparker</span>
+          <span class="review-stars">★★★★★</span>
+        </div>
+        <h3 class="review-title">Come on, it's empty soon</h3>
+        <p class="quote">Quinn and Sparker love Gutsy. They've never finished their bowl so quickly.</p>
+        <div class="review-time">2 days ago</div>
+      </div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-photo">
+        <img src="reviews/2026-05-21 23.04.12.jpg" alt="Henry and Lola" />
+      </div>
+      <div class="review-body">
+        <div class="review-meta">
+          <span class="review-name">Sofie</span>
+          <span class="review-stars">★★★★★</span>
+        </div>
+        <h3 class="review-title">Finally free from allergies</h3>
+        <p class="quote">We had to search for the right food for Henry for a long time because he's allergic to everything, but thanks to Gutsy's hypoallergenic dog food, the allergies are a thing of the past. Lola also enjoys his meal.</p>
+        <div class="review-time">1 week ago</div>
+      </div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-photo">
+        <img src="reviews/2026-05-21 23.04.14.jpg" alt="Puppies on the grass" />
+      </div>
+      <div class="review-body">
+        <div class="review-meta">
+          <span class="review-name">Tom</span>
+          <span class="review-stars">★★★★★</span>
+        </div>
+        <h3 class="review-title">Best choice for our puppies</h3>
+        <p class="quote">We have four fantastic puppies. With Gutsy, we've found a perfectly balanced diet for the whole family.</p>
+        <div class="review-time">1 month ago</div>
+      </div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-photo">
+        <img src="reviews/2026-05-21 23.04.17.jpg" alt="Melissa's dog" />
+      </div>
+      <div class="review-body">
+        <div class="review-meta">
+          <span class="review-name">Melissa</span>
+          <span class="review-stars">★★★★★</span>
+        </div>
+        <h3 class="review-title">Radiant coat</h3>
+        <p class="quote">Our dog is beaming; we really see a difference in his coat. We're happy about this, thanks Gutsy.</p>
+        <div class="review-time">5 days ago</div>
+      </div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-photo">
+        <img src="reviews/2026-05-21 23.04.19.jpg" alt="Hanne and Pippa" />
+      </div>
+      <div class="review-body">
+        <div class="review-meta">
+          <span class="review-name">Hanne</span>
+          <span class="review-stars">★★★★★</span>
+        </div>
+        <h3 class="review-title">Full meal</h3>
+        <p class="quote">We think it's important that Pippa gets food with a high nutritional value. We're quite active with her, and she really needs this. We notice that Gutsy always makes her feel satisfied.</p>
+        <div class="review-time">3 days ago</div>
+      </div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-photo">
+        <img src="reviews/2026-05-21 23.04.21.jpg" alt="Manon with puppy" />
+      </div>
+      <div class="review-body">
+        <div class="review-meta">
+          <span class="review-name">Manon</span>
+          <span class="review-stars">★★★★★</span>
+        </div>
+        <h3 class="review-title">No fillers like all the others!</h3>
+        <p class="quote">Our puppy had to have the best from the start. No over-processed food or fillers. Gutsy's recipe is perfect.</p>
+        <div class="review-time">4 days ago</div>
+      </div>
+    </article>
+  </div>
+  <div class="reviews-controls">
+    <button class="reviews-btn" aria-label="Previous reviews" onclick="document.getElementById('reviewsTrack').scrollBy({left:-420, behavior:'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+    </button>
+    <button class="reviews-btn" aria-label="Next reviews" onclick="document.getElementById('reviewsTrack').scrollBy({left:420, behavior:'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ===================== CTA + FOOTER ===================== -->
+<section class="cta-band" id="cta">
+  <div class="cta-inner">
+    <h3>Join thousands of dog owners choosing <span class="accent">better</span> nutrition with Gutsy.</h3>
+    <a href="#" class="btn-cta">
+      Build your dog's plan
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+  <div class="footer">
+    <div class="brand-block">
+      <img src="Logo/Gutsy • Logo light.png" alt="Gutsy" class="footer-logo" />
+      <p>Real food for real dogs, made in small batches and shipped fresh to your door.</p>
+      <p style="margin-top: 18px; color: var(--beige); opacity: 0.9;">
+        Mechelsesteenweg 271<br/>
+        2018 Antwerpen, Belgium
+      </p>
+      <p style="opacity: 0.7;">
+        <a href="https://instagram.com/gutsy.dog" target="_blank" rel="noopener">@gutsy.dog</a>
+      </p>
+      <div class="socials">
+        <a href="https://instagram.com/gutsy.dog" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.5 1s.8.9 1 1.5c.2.4.3 1 .4 2.2.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-1 1.5s-.9.8-1.5 1c-.4.2-1 .3-2.2.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.5-1s-.8-.9-1-1.5c-.2-.4-.3-1-.4-2.2-.1-1.2-.1-1.6-.1-4.8s0-3.6.1-4.8c.1-1.2.3-1.8.4-2.2.2-.6.5-1 1-1.5s.9-.8 1.5-1c.4-.2 1-.3 2.2-.4 1.2-.1 1.6-.1 4.8-.1zm0 5.4a4.4 4.4 0 100 8.8 4.4 4.4 0 000-8.8zm5.6-.2a1 1 0 11-2 0 1 1 0 012 0zM12 14.8a2.8 2.8 0 110-5.6 2.8 2.8 0 010 5.6z"/></svg>
+        </a>
+        <a href="https://facebook.com/gutsy.dog" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.3 0-1.7.8-1.7 1.6V12h2.9l-.5 2.9h-2.4v7A10 10 0 0022 12z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h5>Shop</h5>
+      <ul>
+        <li><a href="#">Dry food</a></li>
+        <li><a href="#">Wet food</a></li>
+        <li><a href="#">Treats</a></li>
+        <li><a href="#">Supplements</a></li>
+        <li><a href="#">Bundles</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">Our story</a></li>
+        <li><a href="#">Ingredients</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Get the good stuff</h5>
+      <p>New flavours, walk-day playlists and the occasional good-boy story.</p>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed ✓'">
+        <input type="email" placeholder="your@email.com" />
+        <button type="submit">Join</button>
+      </form>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© Gutsy Pet Co. 2026 — Made with quality ingredients in Belgium</span>
+    <span>Privacy · Terms · Sitemap</span>
+  </div>
+</section>
+
+</body>
+</html>
