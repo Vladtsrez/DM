@@ -2,9 +2,9 @@
   "name": "gutsy-landing",
   "version": "1.0.0",
   "scripts": {
-    "start": "serve . --listen $PORT"
+    "start": "node server.js"
   },
   "dependencies": {
-    "serve": "^14.2.4"
+    "express": "^4.19.2"
   }
 }
